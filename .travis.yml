@@ -7,11 +7,9 @@ services:
 # Comandos a ejecutar para correr nuestros tests o lo que queramos. Se va a observar el status que se devuelve, si es distinto de 0 va a fallar.
 # Este programa npm run test nunca acaba, se quedará pillado porque espera input. Para evitar eso se añade -- --coverage
 before_install:
-  - docker build -t abarranco/docker-react-test -f Dockerfile.dev .
-  - docker run -e CI=true abarranco/docker-react-test npm run test -- --coverage
+  - docker build -t abarranco/docker-react .
 
 script:
-  - docker build -t abarranco/docker-react .
   - docker run abarranco/docker-react
 
 # Despliegue en AWS
