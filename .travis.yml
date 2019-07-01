@@ -4,13 +4,13 @@ sudo: required
 services:
   - docker
 
-# Comandos a ejecutar para correr nuestros tests o lo que queramos. Se va a observar el status que se devuelve, si es distinto de 0 va a fallar.
-# Este programa npm run test nunca acaba, se quedará pillado porque espera input. Para evitar eso se añade -- --coverage
 before_install:
-  - docker build -t abarranco/docker-react .
+  - docker build -t abarranco/docker-react -f Dockerfile.dev .
 
+  # Comandos a ejecutar para correr nuestros tests o lo que queramos. Se va a observar el status que se devuelve, si es distinto de 0 va a fallar.
+  # Este programa npm run test nunca acaba, se quedará pillado porque espera input. Para evitar eso se añade -- --coverage
 script:
-  - docker run abarranco/docker-react
+  - docker run -e CI=true abarranco/docker-react npm run test -- --coverage
 
 # Despliegue en AWS
 deploy:
