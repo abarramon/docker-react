@@ -11,3 +11,21 @@ before_install:
   # Este programa npm run test nunca acaba, se quedará pillado porque espera input. Para evitar eso se añade -- --coverage
 script:
   - docker run -e CI=true abarranco/docker-react npm run test -- --coverage
+
+# Despliegue en AWS
+deploy:
+  # travis CI está preparado para desplegar en un montón de sitios.
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app:  "docker-react"
+  env:  "DockerReact-env"
+  # Se va a copiar en un s3 el fichero zipeado con nuestro código. Este bucket se generó automaticamente con el entorno de beanstalk
+  # Se puede buscar bajo servicios y aparece el bucket. En el path cuando empiezas no tienes nada, pero la primera carpeta que se va a crear contiene el nombre de la app
+  bucket_name:  "elasticbeanstalk-us-east-2-540157049299"
+  bucket_path:  "docker-react"
+  # Solo se va a desplegar cuando pusheemos en master
+  on:
+    branch: master
+  access_key_id:  $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
